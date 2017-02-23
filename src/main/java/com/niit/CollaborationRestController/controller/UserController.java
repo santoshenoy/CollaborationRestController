@@ -26,6 +26,9 @@ public class UserController {
 
 	@PostMapping("/addUser/")
 	public ResponseEntity<User> addUser(@RequestBody User user) {
+        user.setRole("Student");
+		user.setIsOnline('N');
+		user.setStatus('P');
 		userDAO.save(user);
 		user.setErrorCode("200");
 		user.setErrorMsg("SUCCESS");
