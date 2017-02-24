@@ -1,3 +1,4 @@
 com\niit\CollaborationRestController\controller\JobController.class
 com\niit\CollaborationRestController\controller\BlogController.class
+com\niit\CollaborationRestController\controller\ForumController.class
 com\niit\CollaborationRestController\controller\UserController.class

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.CollaborationBackEnd.dao.BlogDAO;
 import com.niit.CollaborationBackEnd.model.Blog;
-import com.niit.CollaborationBackEnd.model.User;
 
 @RestController
 public class BlogController {
