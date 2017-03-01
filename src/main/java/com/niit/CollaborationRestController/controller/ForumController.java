@@ -1,5 +1,7 @@
 package com.niit.CollaborationRestController.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.CollaborationBackEnd.dao.ForumDAO;
+import com.niit.CollaborationBackEnd.model.Blog;
 import com.niit.CollaborationBackEnd.model.Forum;
 
 @RestController
@@ -35,6 +38,11 @@ public class ForumController {
 	@GetMapping("/listForum")
 	public ResponseEntity<List<Forum>> getList() {
 		List<Forum> list = forumDAO.list();
+		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+		for (Forum f : list) {
+			String d = df.format(f.getF_date());
+			f.setDate3(d);
+		}
 		forum.setErrorCode("200");
 		forum.setErrorMsg("Success.....");
 		return new ResponseEntity<List<Forum>>(list, HttpStatus.OK);

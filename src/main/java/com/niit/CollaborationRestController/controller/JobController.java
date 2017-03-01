@@ -1,5 +1,8 @@
 package com.niit.CollaborationRestController.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +20,13 @@ import com.niit.CollaborationBackEnd.model.Job;
 
 @RestController
 public class JobController {
-	
+
 	@Autowired
 	Job job;
-	
+
 	@Autowired
 	JobDAO jobDAO;
-	
+
 	@PostMapping("/addJob/")
 	public ResponseEntity<Job> addJob(@RequestBody Job job) {
 		jobDAO.save(job);
@@ -35,6 +38,11 @@ public class JobController {
 	@GetMapping("/listJob")
 	public ResponseEntity<List<Job>> getList() {
 		List<Job> list = jobDAO.list();
+		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+		for (Job j : list) {
+			String d = df.format(j.getDateTime());
+			j.setDate1(d);
+		}
 		job.setErrorCode("200");
 		job.setErrorMsg("Success.....");
 		return new ResponseEntity<List<Job>>(list, HttpStatus.OK);

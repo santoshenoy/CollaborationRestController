@@ -1,5 +1,7 @@
 package com.niit.CollaborationRestController.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.CollaborationBackEnd.dao.UserDAO;
+import com.niit.CollaborationBackEnd.model.Forum;
 import com.niit.CollaborationBackEnd.model.User;
 
 @RestController
@@ -26,7 +29,7 @@ public class UserController {
 
 	@PostMapping("/addUser/")
 	public ResponseEntity<User> addUser(@RequestBody User user) {
-        user.setRole("Student");
+		user.setRole("Student");
 		user.setIsOnline('N');
 		user.setStatus('P');
 		userDAO.save(user);
@@ -38,6 +41,11 @@ public class UserController {
 	@GetMapping("/listUser")
 	public ResponseEntity<List<User>> getList() {
 		List<User> list = userDAO.list();
+		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+		for (User u : list) {
+			String d = df.format(u.getDob());
+			u.setDate4(d);
+		}
 		user.setErrorCode("200");
 		user.setErrorMsg("Success.....");
 		return new ResponseEntity<List<User>>(list, HttpStatus.OK);

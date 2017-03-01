@@ -1,5 +1,7 @@
 package com.niit.CollaborationRestController.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,11 @@ public class BlogController {
 	@GetMapping("/listBlog")
 	public ResponseEntity<List<Blog>> getList() {
 		List<Blog> list = blogDAO.list();
+		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+		for (Blog b : list) {
+			String d = df.format(b.getB_date());
+			b.setDate2(d);
+		}
 		blog.setErrorCode("200");
 		blog.setErrorMsg("Success.....");
 		return new ResponseEntity<List<Blog>>(list, HttpStatus.OK);
