@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,9 @@ public class UserController {
 
 	@Autowired
 	UserDAO userDAO;
+
+	@Autowired
+	HttpSession session;
 
 	@PostMapping("/addUser/")
 	public ResponseEntity<User> addUser(@RequestBody User user) {
@@ -64,6 +69,51 @@ public class UserController {
 		userDAO.update(user);
 		user.setErrorCode("200");
 		user.setErrorMsg("Edited Successfully.....");
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<User> validateUser(@RequestBody User user) {
+		System.out.println("Name: " + user.getId());
+		System.out.println("Password: " + user.getPsswrd());
+		boolean value = userDAO.validateUser(user.getId(), user.getPsswrd());
+		System.out.println(value);
+		if (value == false) {
+			user = new User();
+			user.setErrorCode("404");
+			user.setErrorMsg("Wrong username and/or password");
+		} else {
+			if (user.getStatus() == 'R') {
+				user = new User();
+				user.setErrorCode("404");
+				user.setErrorMsg("Registration rejected");
+			}
+			if (user.getStatus() == 'N') {
+				user = new User();
+				user.setErrorCode("404");
+				user.setErrorMsg("Registration approval is pending");
+			} else {
+				user = userDAO.getUser(user.getId());
+				System.out.println(user.getId());
+				user.setIsOnline('Y');
+				userDAO.save(user);
+				session.setAttribute("id", user.getId());
+				session.setAttribute("role", user.getRole());
+				user.setErrorCode("200");
+				user.setErrorMsg("Success");
+			}
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+
+	@GetMapping("/logout")
+	public ResponseEntity<User> logout() {
+		user = userDAO.getUser(session.getAttribute("id").toString());
+		user.setIsOnline('N');
+		userDAO.save(user);
+		user.setErrorCode("200");
+		user.setErrorMsg("You have successfully logged out");
+		session.invalidate();
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
