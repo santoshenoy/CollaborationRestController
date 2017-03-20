@@ -1,6 +1,9 @@
-com\niit\CollaborationRestController\controller\JobController.class
-com\niit\CollaborationRestController\controller\BlogController.class
 com\niit\CollaborationRestController\controller\EventController.class
 com\niit\CollaborationRestController\controller\ForumController.class
-com\niit\CollaborationRestController\controller\UserController.class
+com\niit\CollaborationRestController\controller\ChatController.class
+com\niit\CollaborationRestController\chat\Message.class
 com\niit\CollaborationRestController\controller\FriendController.class
+com\niit\CollaborationRestController\chat\OutputMessage.class
+com\niit\CollaborationRestController\controller\JobController.class
+com\niit\CollaborationRestController\controller\BlogController.class
+com\niit\CollaborationRestController\controller\UserController.class
