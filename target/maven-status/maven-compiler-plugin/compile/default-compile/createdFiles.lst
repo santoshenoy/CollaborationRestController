@@ -1,5 +1,6 @@
 com\niit\CollaborationRestController\controller\EventController.class
 com\niit\CollaborationRestController\controller\ForumController.class
+com\niit\CollaborationRestController\controller\FileUploadController.class
 com\niit\CollaborationRestController\controller\ChatController.class
 com\niit\CollaborationRestController\chat\Message.class
 com\niit\CollaborationRestController\controller\FriendController.class
